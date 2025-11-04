@@ -4,34 +4,32 @@
 
 const projects = [
   {
-    title: "Site e-commerce",
-    desc: "Développement complet d’une boutique moderne.",
-    tags: ["Web", "React", "Design"]
+    title: "Analyseur de log Apache en Python",
+    desc: "Parsing, analyse data, détection de DDoS, bots et génération de graphiques.",
+    tags: ["Python", "Système", "Sécurité", "Data"],
+    image: "./Log.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Projet---Analyse-de-Log-Apache"
   },
   {
-    title: "Application météo",
-    desc: "App dynamique utilisant une API publique.",
-    tags: ["JavaScript", "API", "UI"]
+    title: "Modelisation et conception de base de données relationnelle",
+    desc: "MySQL, MCD, MLD, MPD et requêtes SQL avancées.",
+    tags: ["MySQL", "SQL", "Data", "Projet CESI"],
+    image: "./SQL.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Projet-ClearData---Modelisation-et-Conception-de-Base-de-Donnees-Relationnelle"
   },
   {
     title: "Portfolio personnel",
-    desc: "Création d’un portfolio responsive.",
-    tags: ["HTML", "CSS", "JS"]
+    desc: "Création d'un portfolio responsive.",
+    tags: ["HTML", "CSS", "JS", "Projet Perso"],
+    image: "./portfolio.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Portfolio"
   },
   {
-    title: "Dashboard analytique",
-    desc: "Interface avec graphiques en temps réel.",
-    tags: ["React", "Data", "UI"]
-  },
-  {
-    title: "Landing page startup",
-    desc: "Page marketing performante et optimisée.",
-    tags: ["Design", "HTML", "CSS"]
-  },
-  {
-    title: "Jeu Web",
-    desc: "Mini jeu codé en Canvas et JavaScript pur.",
-    tags: ["JavaScript", "Canvas", "Fun"]
+    title: "Worldwide Weather Watcher",
+    desc: "Conception d’une station météo embarquée autonome sur Arduino Uno.",
+    tags: ["C++", "Arduino", "Linux", "Projet CESI"],
+    image: "./WWW.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Projet-WWW---World-Weather-Watcher"
   }
 ];
 
@@ -44,8 +42,11 @@ const grid = document.getElementById("projectsGrid");
 projects.forEach((p) => {
   const card = document.createElement("div");
   card.className = "card";
+  card.style.cursor = "pointer";
   card.innerHTML = `
-    <div class="thumb">${p.title.charAt(0)}</div>
+    <div class="thumb">
+      <img src="${p.image}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
+    </div>
     <div class="content">
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
@@ -54,6 +55,12 @@ projects.forEach((p) => {
       </div>
     </div>
   `;
+  
+  // Ajouter l'événement de clic
+  card.addEventListener("click", () => {
+    window.open(p.githubUrl, "_blank", "noopener,noreferrer");
+  });
+  
   grid.appendChild(card);
 });
 

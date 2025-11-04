@@ -59,7 +59,7 @@
   .filters{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
   .filter{padding:8px 12px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));cursor:pointer;transition:.2s;color:#0b1220;font-weight:600;box-shadow:0 6px 16px rgba(96,165,250,.28);}
   .filter.active{outline:var(--ring);background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#0b1220;box-shadow:0 8px 20px rgba(96,165,250,.4);}
-  .cv-btn{padding:8px 12px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));cursor:pointer;transition:.2s;color:#0b1220;font-weight:600;box-shadow:0 6px 16px rgba(96,165,250,.28);text-decoration:none;}
+  .cv-btn{padding:0 28px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));cursor:pointer;transition:.2s;color:#0b1220;font-weight:600;box-shadow:0 6px 16px rgba(96,165,250,.28);text-decoration:none;}
   .cv-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(96,165,250,.4);}
 
   /* Halo BLEU qui SE FOND dans le background */
@@ -101,17 +101,17 @@
   .section{padding:40px 0 120px;max-width:1600px;margin:0 auto;position:relative;z-index:1;}
   .section h2{font-size:24px;margin-bottom:20px}
   .grid{display:grid;gap:28px;grid-template-columns:repeat(12,1fr);}
-  .card{grid-column:span 3;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);overflow:hidden;transition:.25s ease;box-shadow:var(--shadow);opacity:0;transform:translateY(40px);position:relative;z-index:1;}
+  .card{grid-column:span 3;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);overflow:hidden;transition:.25s ease;box-shadow:var(--shadow);opacity:0;transform:translateY(40px);position:relative;z-index:1;display:flex;flex-direction:column;}
   .card::before{content:"";position:absolute;inset:-20px;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 50% 50%,rgba(96,165,250,0.15) 0%,rgba(110,231,183,0.08) 40%,rgba(96,165,250,0.04) 70%,transparent 100%);filter:blur(40px);mix-blend-mode:screen;opacity:0;transition:opacity 0.3s ease;}
   .card.show{opacity:1;transform:translateY(0);transition:opacity .6s ease, transform .6s ease;}
   .card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.5);}
   .card:hover::before{opacity:1;}
-  .thumb{aspect-ratio:16/9;width:100%;display:grid;place-items:center;background:linear-gradient(135deg,rgba(110,231,183,.25),rgba(96,165,250,.25));font-weight:800;}
-  .content{padding:16px;}
+  .thumb{aspect-ratio:16/9;width:100%;display:grid;place-items:center;background:linear-gradient(135deg,rgba(110,231,183,.25),rgba(96,165,250,.25));font-weight:800;overflow:hidden;}
+  .content{padding:16px;display:flex;flex-direction:column;flex-grow:1;}
   .content h3{margin:0 0 8px;}
-  .content p{margin:0;color:var(--muted);}
-  .meta{margin-top:12px;display:flex;justify-content:space-between;align-items:center;}
-  .tag{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);}
+  .content p{margin:0;color:var(--muted);flex-grow:1;}
+  .meta{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .tag{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);white-space:nowrap;}
 
   /* Citation + infos fusionnées */
   .quote-info-section{position:relative;width:100%;padding:100px 64px;background:none;border:none;text-align:center;overflow:hidden;}
@@ -156,7 +156,7 @@
         <p class="subtitle">Passionné par l'informatique et les nouvelles technologies, j'aime concevoir des projets qui allient créativité et rigueur technique.
           Étudiant en 2ème année de classe préparatoire intégrée spécialité informatique à CESI, je développe mes compétences en programmation, conception logicielle et gestion de projet.
           Mon objectif est de créer des solutions utiles et élégantes, tout en continuant à apprendre et à innover chaque jour.</p>
-        <a class="btn cv-btn" href="#" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;">📄 Télécharger mon CV</a>
+        <a class="btn cv-btn" href="./CV Benjamin Cousin.pdf" download="CV Benjamin Cousin.pdf" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;">📄 Télécharger mon CV</a>
         <div class="chips" id="heroChips"></div>
         <div class="hero-card">
           <strong>Filtrer par tag</strong>
@@ -197,6 +197,8 @@
           <p>Envie de collaborer ? Écrivez-moi, je réponds rapidement.</p>
           <a class="btn" href="mailto:cousin.benjamin.pro@gmail.com">📧 cousin.benjamin.pro@gmail.com</a>
           <a class="btn" href="tel:0658675892" style="margin-top: 8px;">📞 0658675892</a>
+          <a class="btn" href="https://www.linkedin.com/in/benjamin-cousin-3b8622394" target="_blank" rel="noopener noreferrer" style="margin-top: 8px;">💼 LinkedIn</a>
+          <a class="btn" href="https://github.com/BenCsn-sudo" target="_blank" rel="noopener noreferrer" style="margin-top: 8px;">🐙 GitHub</a>
         </div>
       </div>
     </section>
@@ -204,7 +206,7 @@
     <footer>
       <span id="copyright"></span>
       <div class="links">
-        <a href="#">X</a><a href="#">GitHub</a><a href="#">LinkedIn</a>
+        <a href="https://github.com/BenCsn-sudo" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/benjamin-cousin-3b8622394" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </footer>
   </main>
