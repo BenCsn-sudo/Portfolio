@@ -51,6 +51,13 @@ const projects = [
     tags: ["C++", "POO", "Linux", "Projet CESI"],
     image: "./JDV.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Jeu-de-la-vie---Programmation-Orient-Objet-POO-"
+  },
+  {
+    title: "Chiffrement (POO)",
+    desc: "Chiffrement et déchiffrement d'un .txt en César, XOR et les deux combinés.",
+    tags: ["C++", "POO", "Linux"],
+    image: "./CHI.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Projet-Chiffrement---POO"
   }
 ];
 
@@ -194,5 +201,5 @@ updateHaloEffects(); // Appel initial
 
 const copyright = document.getElementById("copyright");
 if (copyright) {
-  copyright.textContent = `© ${new Date().getFullYear()} — Mon Portfolio`;
+  copyright.textContent = `© ${new Date().getFullYear()} — Portfolio Benjamin Cousin`;
 }
