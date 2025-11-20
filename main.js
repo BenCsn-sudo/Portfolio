@@ -13,7 +13,7 @@ const projects = [
   {
     title: "Modelisation et conception de base de données relationnelle",
     desc: "MySQL, MCD, MLD, MPD et requêtes SQL avancées.",
-    tags: ["MySQL", "SQL", "Data", "Projet CESI"],
+    tags: ["MySQL", "SQL", "Data", "Projet Majeur"],
     image: "./SQL.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-ClearData---Modelisation-et-Conception-de-Base-de-Donnees-Relationnelle"
   },
@@ -27,14 +27,14 @@ const projects = [
   {
     title: "Worldwide Weather Watcher",
     desc: "Conception d’une station météo embarquée autonome sur Arduino Uno.",
-    tags: ["C++", "Arduino", "Linux", "Projet CESI"],
+    tags: ["C", "Arduino", "Linux", "Projet Majeur"],
     image: "./WWW.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-WWW---World-Weather-Watcher"
   },
   {
     title: "Traitement du signal",
     desc: "Ce projet simule le fonctionnement complet d’une chaîne de communication numérique",
-    tags: ["Python", "Sécurité", "Projet CESI"],
+    tags: ["Python", "Sécurité"],
     image: "./TS.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Escape-No-Game---Traitement-du-signal"
   },
@@ -48,16 +48,23 @@ const projects = [
   {
     title: "Jeu de la vie (POO)",
     desc: "Simulation du Jeu de la Vie de Conway en programmation orientée objet (C++).",
-    tags: ["C++", "POO", "Linux", "Projet CESI"],
+    tags: ["C++", "POO", "Gros Projet"],
     image: "./JDV.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Jeu-de-la-vie---Programmation-Orient-Objet-POO-"
   },
   {
     title: "Chiffrement (POO)",
     desc: "Chiffrement et déchiffrement d'un .txt en César, XOR et les deux combinés.",
-    tags: ["C++", "POO", "Linux"],
+    tags: ["C++", "POO", "Projet Majeur"],
     image: "./CHI.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Chiffrement---POO"
+  },
+  {
+    title: "Application Géométique (POO)",
+    desc: "Projet C++/SFML pour créer et afficher des formes géométriques.",
+    tags: ["C++", "POO"],
+    image: "./GEO.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Application-Geometrique---POO"
   }
 ];
 
@@ -71,6 +78,7 @@ projects.forEach((p) => {
   const card = document.createElement("div");
   card.className = "card";
   card.style.cursor = "pointer";
+  card.dataset.tags = p.tags.join(",");
   card.innerHTML = `
     <div class="thumb">
       <img src="${p.image}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
@@ -92,6 +100,67 @@ projects.forEach((p) => {
   grid.appendChild(card);
 });
 
+const cardElements = Array.from(document.querySelectorAll(".card"));
+const projectsToggle = document.getElementById("projectsToggle");
+const BASE_VISIBLE_CARDS = 8;
+const INCREMENT_VISIBLE_CARDS = 8;
+let extraVisibleCards = 0;
+
+function getActiveCards() {
+  return cardElements.filter((card) => !card.classList.contains("filtered-out"));
+}
+
+function updateCardVisibility() {
+  const activeCards = getActiveCards();
+  const limit = Math.min(BASE_VISIBLE_CARDS + extraVisibleCards, activeCards.length);
+  let visibleCount = 0;
+
+  cardElements.forEach((card) => {
+    if (card.classList.contains("filtered-out")) {
+      card.classList.remove("hidden-card");
+      return;
+    }
+
+    if (visibleCount < limit) {
+      card.classList.remove("hidden-card");
+    } else {
+      card.classList.add("hidden-card");
+    }
+    visibleCount += 1;
+  });
+
+  if (!projectsToggle) return;
+
+  if (activeCards.length <= BASE_VISIBLE_CARDS) {
+    projectsToggle.style.display = "none";
+  } else {
+    projectsToggle.style.display = "inline-flex";
+    const allVisible = limit >= activeCards.length;
+    projectsToggle.setAttribute("aria-expanded", allVisible ? "true" : "false");
+    projectsToggle.querySelector(".label").textContent = allVisible ? "Voir moins de projets" : "Voir plus de projets";
+  }
+}
+
+if (projectsToggle) {
+  projectsToggle.addEventListener("click", () => {
+    const activeCards = getActiveCards();
+    const allVisible = BASE_VISIBLE_CARDS + extraVisibleCards >= activeCards.length;
+
+    if (allVisible) {
+      extraVisibleCards = 0;
+    } else {
+      extraVisibleCards = Math.min(
+        activeCards.length - BASE_VISIBLE_CARDS,
+        extraVisibleCards + INCREMENT_VISIBLE_CARDS
+      );
+    }
+
+    updateCardVisibility();
+  });
+}
+
+requestAnimationFrame(updateCardVisibility);
+
 // ============================
 // Animation d’apparition progressive des cartes
 // ============================
@@ -108,7 +177,7 @@ const cardsObserver = new IntersectionObserver(
   { threshold: 0.15 }
 );
 
-document.querySelectorAll(".card").forEach((c) => cardsObserver.observe(c));
+cardElements.forEach((c) => cardsObserver.observe(c));
 
 // ============================
 // Système de filtres dynamiques
@@ -126,9 +195,9 @@ allBtn.onclick = () => {
   document.querySelectorAll(".filter").forEach((f) => f.classList.remove("active"));
   allBtn.classList.add("active");
 
-  document.querySelectorAll(".card").forEach((card) => {
-    card.style.display = "block";
-  });
+  cardElements.forEach((card) => card.classList.remove("filtered-out"));
+  extraVisibleCards = 0;
+  updateCardVisibility();
 };
 
 filters.appendChild(allBtn);
@@ -143,10 +212,14 @@ allTags.forEach((tag) => {
     document.querySelectorAll(".filter").forEach((f) => f.classList.remove("active"));
     btn.classList.add("active");
 
-    document.querySelectorAll(".card").forEach((card) => {
-      const hasTag = card.innerHTML.includes(tag);
-      card.style.display = hasTag ? "block" : "none";
+    cardElements.forEach((card) => {
+      const hasTag = (card.dataset.tags || "")
+        .split(",")
+        .some((storedTag) => storedTag.trim() === tag);
+      card.classList.toggle("filtered-out", !hasTag);
     });
+    extraVisibleCards = 0;
+    updateCardVisibility();
   };
 
   filters.appendChild(btn);
