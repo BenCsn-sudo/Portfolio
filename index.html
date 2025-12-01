@@ -33,17 +33,17 @@
   .wrap{width:100%;padding:32px 64px;}
   header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.2) blur(10px);
   background:linear-gradient(to bottom,rgba(14,15,18,.9),rgba(14,15,18,.3) 70%,transparent);
-  border-bottom:1px solid rgba(255,255,255,.06);padding:12px 32px 12px 20px;}
+  border-bottom:1px solid rgba(255,255,255,.06);padding:8px 32px 8px 20px;}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1600px;margin:0 auto;}
-  .brand{display:flex;align-items:center;gap:20px;font-weight:800;font-size:18px;}
-  .logo{width:70px;height:70px;border-radius:50%;background:url('./coffee.png') center/cover;box-shadow:0 8px 20px rgba(96,165,250,.35);position:relative;overflow:hidden;}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:24px;}
+  .logo{width:45px;height:45px;border-radius:50%;background:url('./coffee.png') center/cover;box-shadow:0 8px 20px rgba(96,165,250,.35);position:relative;overflow:hidden;flex-shrink:0;}
   .logo::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:0.3;mix-blend-mode:screen;border-radius:50%;}
   .btn{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);transition:.2s ease;cursor:pointer;color:var(--text);}
   .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.06)}
 
   /* HERO */
   .hero{
-    padding:80px 0 60px;
+    padding:40px 0 60px;
     display:grid; gap:50px;
     grid-template-columns:1.1fr .9fr;
     align-items:center;
@@ -51,8 +51,34 @@
     position: relative;
     isolation: isolate;
   }
-  .title{font-size:clamp(32px,5vw,54px);font-weight:800;line-height:1.1;margin-bottom:16px}
-  .subtitle{color:var(--muted);max-width:70ch;margin-bottom:24px;line-height:1.6;font-size:16px}
+  .bash-command{
+    font-family:'Courier New',Courier,'Monaco','Menlo',monospace;
+    font-size:18px;
+    color:var(--text);
+    margin-top:20px;
+    margin-bottom:28px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .bash-prompt{
+    color:#6ee7b7;
+    font-weight:600;
+  }
+  .cursor-blink{
+    display:inline-block;
+    width:8px;
+    height:22px;
+    background-color:var(--text);
+    animation:blink 1s infinite;
+    margin-left:2px;
+  }
+  @keyframes blink{
+    0%,50%{opacity:1;}
+    51%,100%{opacity:0;}
+  }
+  .title{font-size:clamp(32px,5vw,54px);font-weight:800;line-height:1.1;margin-bottom:32px}
+  .subtitle{color:var(--muted);max-width:70ch;margin-bottom:36px;line-height:1.6;font-size:16px}
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
   .chip{padding:6px 10px;border-radius:999px;font-size:13px;color:#0b1220;font-weight:600;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 16px rgba(96,165,250,.28);}
   .hero-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:24px;margin-top:8px;}
@@ -96,6 +122,35 @@
     box-shadow: 0 10px 30px rgba(0,0,0,.45);
   }
   .hero-img img{width:100%;height:auto;display:block;border-radius:inherit;}
+  .ascii-art{
+    width:100%;
+    max-width:620px;
+    margin:0;
+    padding:16px;
+    font-family:'Courier New',Courier,monospace;
+    font-size:4px;
+    line-height:1.1;
+    color:#000000;
+    background:radial-gradient(ellipse at center, rgba(250,248,245,0.98) 0%, rgba(240,238,235,0.9) 25%, rgba(220,218,215,0.7) 50%, rgba(200,198,195,0.4) 75%, rgba(180,178,175,0.15) 90%, transparent 100%);
+    border-radius:inherit;
+    overflow:visible;
+    white-space:pre;
+    text-align:left;
+    display:block;
+    border:none;
+    position:relative;
+    box-shadow:0 15px 50px rgba(0,0,0,0.4);
+  }
+  .hero-img{
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    border-radius: 24px;
+    overflow: visible;
+    z-index: 1;
+    border: none;
+    box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+  }
 
   /* PROJETS */
   .section{padding:40px 0 120px;max-width:1600px;margin:0 auto;position:relative;z-index:1;}
@@ -146,11 +201,9 @@
   <header>
     <div class="wrap nav">
       <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <span>Portfolio Benjamin Cousin</span>
+        <span>Benjamin Cousin</span>
       </div>
       <div style="display:flex; gap:10px; align-items:center">
-        <button id="themeToggle" class="btn" type="button">Mode</button>
         <a class="btn" href="#contact">Me contacter</a>
       </div>
     </div>
@@ -159,11 +212,14 @@
   <main class="wrap">
     <section class="hero">
       <div>
+        <div class="bash-command">
+          <span class="bash-prompt">$</span> sudo apt install Portfolio<span class="cursor-blink">|</span>
+        </div>
         <h1 class="title">Benjamin Cousin</h1>
         <p class="subtitle">Passionné par l'informatique et les nouvelles technologies, j'aime concevoir des projets qui allient créativité et rigueur technique.
           Étudiant en 2ème année de classe préparatoire intégrée spécialité informatique à CESI, je développe mes compétences en programmation, conception logicielle et gestion de projet.
           Mon objectif est de créer des solutions utiles et élégantes, tout en continuant à apprendre et à innover chaque jour.</p>
-        <a class="btn cv-btn" href="./CV Benjamin Cousin.pdf" download="CV Benjamin Cousin.pdf" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;">📄 Télécharger mon CV</a>
+        <a class="btn cv-btn" href="./CV Benjamin Cousin.pdf" download="CV Benjamin Cousin.pdf" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px;">📄 Télécharger mon CV</a>
         <div class="chips" id="heroChips"></div>
         <div class="hero-card">
           <strong>Filtrer par tag</strong>
@@ -172,14 +228,19 @@
       </div>
 
       <div class="hero-media">
+        <div class="bash-command" style="margin-bottom: 16px;">
+          <span class="bash-prompt">$</span> cat photoProfile.txt<span class="cursor-blink">|</span>
+        </div>
         <div class="hero-img">
-          <img src="./hero_setup.avif" alt="Photo setup de travail" loading="lazy">
+          <pre id="ascii-art" class="ascii-art"></pre>
         </div>
       </div>
     </section>
 
     <section class="section" aria-labelledby="work-title">
-      <h2 id="work-title">Projets</h2>
+      <div class="bash-command">
+        <span class="bash-prompt">$</span> ls Projets<span class="cursor-blink">|</span>
+      </div>
       <div class="grid" id="projectsGrid"></div>
       <div class="projects-controls">
         <button type="button" id="projectsToggle" class="show-more-btn" aria-expanded="false">
@@ -223,6 +284,7 @@
       </div>
     </footer>
   </main>
+  <script src="./ascii-art-inline.js"></script>
   <script src="./main.js" defer></script>
 </body>
 </html>

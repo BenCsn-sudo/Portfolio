@@ -226,23 +226,12 @@ allTags.forEach((tag) => {
 });
 
 // ============================
-// Gestion du thème clair/sombre
+// Thème sombre (fixe)
 // ============================
 
-const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-let darkMode = prefersDark;
-
-function setTheme(dark) {
-  document.documentElement.style.setProperty("--bg", dark ? "#0e0f12" : "#f7fafc");
-  document.documentElement.style.setProperty("--text", dark ? "#eef2f7" : "#0b1220");
-}
-
-document.getElementById("themeToggle")?.addEventListener("click", () => {
-  darkMode = !darkMode;
-  setTheme(darkMode);
-});
-
-setTheme(darkMode);
+// Forcer le mode sombre
+document.documentElement.style.setProperty("--bg", "#0e0f12");
+document.documentElement.style.setProperty("--text", "#eef2f7");
 
 // ============================
 // Effets de halo en haut et bas de page
@@ -275,4 +264,59 @@ updateHaloEffects(); // Appel initial
 const copyright = document.getElementById("copyright");
 if (copyright) {
   copyright.textContent = `© ${new Date().getFullYear()} — Portfolio Benjamin Cousin`;
+}
+
+// ============================
+// Chargement de l'art ASCII
+// ============================
+
+const asciiArtElement = document.getElementById("ascii-art");
+if (asciiArtElement) {
+  // Utiliser l'art ASCII défini dans le script inline, ou essayer de le charger via fetch
+  let asciiText = '';
+  
+  // Vérifier si l'art ASCII est déjà défini globalement (via script inline)
+  if (typeof window.ASCII_ART !== 'undefined') {
+    asciiText = window.ASCII_ART;
+    displayAsciiArt(asciiText);
+  } else {
+    // Fallback: essayer de charger via fetch (fonctionne avec un serveur web)
+    fetch("./ascii-art.txt")
+      .then(response => response.text())
+      .then(text => {
+        displayAsciiArt(text);
+      })
+      .catch(error => {
+        console.error("Erreur lors du chargement de l'art ASCII:", error);
+        // Afficher un message d'erreur
+        asciiArtElement.textContent = "Erreur: Impossible de charger l'art ASCII. Veuillez utiliser un serveur web local.";
+        asciiArtElement.style.color = 'red';
+      });
+  }
+  
+  function displayAsciiArt(text) {
+    asciiArtElement.textContent = text;
+    // Ajuster la taille de la police pour que l'art ASCII ait une taille similaire à l'image originale
+    const adjustFontSize = () => {
+      const container = asciiArtElement.parentElement;
+      const containerWidth = container.offsetWidth || 620;
+      // Trouver la ligne la plus longue dans l'art ASCII
+      const lines = text.split('\n');
+      const maxLineLength = Math.max(...lines.map(line => line.length));
+      // On veut que l'art ASCII prenne environ la même largeur que l'image (max 620px)
+      const targetWidth = Math.min(containerWidth - 32, 588); // 32px pour le padding
+      // Calculer la taille de police pour que la ligne la plus longue rentre dans la largeur cible
+      const fontSize = (targetWidth / maxLineLength) * 0.9; // 0.9 pour un peu de marge
+      asciiArtElement.style.fontSize = `${Math.max(2.5, Math.min(5.5, fontSize))}px`;
+      // Synchroniser la taille de police du pseudo-élément si nécessaire
+      const beforeElement = asciiArtElement;
+      if (beforeElement) {
+        beforeElement.style.fontSize = `${Math.max(2.5, Math.min(5.5, fontSize))}px`;
+      }
+    };
+    
+    // Ajuster au chargement et au redimensionnement
+    setTimeout(adjustFontSize, 100);
+    window.addEventListener('resize', adjustFontSize);
+  }
 }
