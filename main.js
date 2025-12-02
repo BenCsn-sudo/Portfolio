@@ -13,7 +13,7 @@ const projects = [
   {
     title: "Modelisation et conception de base de données relationnelle",
     desc: "MySQL, MCD, MLD, MPD et requêtes SQL avancées.",
-    tags: ["MySQL", "SQL", "Data", "Projet Majeur"],
+    tags: ["MySQL", "SQL", "Data", "✪"],
     image: "./SQL.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-ClearData---Modelisation-et-Conception-de-Base-de-Donnees-Relationnelle"
   },
@@ -27,7 +27,7 @@ const projects = [
   {
     title: "Worldwide Weather Watcher",
     desc: "Conception d’une station météo embarquée autonome sur Arduino Uno.",
-    tags: ["C", "Arduino", "Linux", "Projet Majeur"],
+    tags: ["C", "Arduino", "✪"],
     image: "./WWW.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-WWW---World-Weather-Watcher"
   },
@@ -48,14 +48,14 @@ const projects = [
   {
     title: "Jeu de la vie (POO)",
     desc: "Simulation du Jeu de la Vie de Conway en programmation orientée objet (C++).",
-    tags: ["C++", "POO", "Gros Projet"],
+    tags: ["C++", "POO", "✪"],
     image: "./JDV.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Jeu-de-la-vie---Programmation-Orient-Objet-POO-"
   },
   {
     title: "Chiffrement (POO)",
     desc: "Chiffrement et déchiffrement d'un .txt en César, XOR et les deux combinés.",
-    tags: ["C++", "POO", "Projet Majeur"],
+    tags: ["C++", "POO"],
     image: "./CHI.png",
     githubUrl: "https://github.com/BenCsn-sudo/Projet-Chiffrement---POO"
   },
@@ -65,6 +65,13 @@ const projects = [
     tags: ["C++", "POO"],
     image: "./GEO.png",
     githubUrl: "https://github.com/BenCsn-sudo/Application-Geometrique---POO"
+  },
+  {
+    title: "Calculatrice (POO)",
+    desc: "Calculatrice basique en C++ utilisant les piles (LIFO)",
+    tags: ["C++", "POO"],
+    image: "./CALC.png",
+    githubUrl: "https://github.com/BenCsn-sudo/Projet-Calculatrice---POO"
   }
 ];
 
