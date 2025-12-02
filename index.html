@@ -27,7 +27,7 @@
     font:16px/1.6 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     background: var(--bg);
     color:var(--text);
-    overflow-x:hidden; /* Empêche le scroll horizontal */
+    overflow-x:hidden;
     width: 100%;
     position: relative;
   }
@@ -154,7 +154,7 @@
 
   /* --- MOBILE OPTIMIZATIONS (Smartphones) --- */
   @media(max-width: 768px) {
-    /* 1. RESET OVERFLOW & MARGINS (Fixe la marge blanche à droite) */
+    /* 1. RESET OVERFLOW & MARGINS */
     html, body { max-width: 100%; overflow-x: hidden; position: relative; }
     .wrap, header, .quote-info-section, footer { 
       padding-left: 16px; padding-right: 16px; width: 100%; 
@@ -171,36 +171,40 @@
     .hero > div:first-child { display: contents; }
 
     .bash-command:first-of-type, .title, .subtitle { order: 1; }
-    .hero-media { order: 2; margin: 10px 0 30px; width: 100%; }
+    .hero-media { order: 2; margin: 10px 0 20px; width: 100%; }
     .cv-btn, .chips, .hero-card { order: 3; }
     
-    /* 3. STYLISATION SPÉCIALE ASCII CARRÉ & COMPLET */
+    /* 3. STYLISATION SPÉCIALE ASCII */
     .hero-img { 
         width: 100%; 
-        max-width: none; /* Enlève la limite pour laisser la place */
-        overflow: hidden; 
-        display: flex;
-        justify-content: center;
+        max-width: none; 
+        /* Le conteneur s'adapte à la hauteur du contenu, pas d'espace vide */
+        height: auto;
         margin-top: 0;
+        /* Padding interne pour décoller le texte du bord de l'écran */
+        padding: 0; 
+        border-radius: 12px;
     }
+    
     .ascii-art {
-        /* Technique de scale pour tout faire rentrer */
-        font-size: 5px !important; 
-        line-height: 0.6;
+        /* CLÉ DU SUCCÈS : Taille fluide basée sur la largeur de l'écran (Viewport Width) */
+        /* 1.1vw signifie que chaque lettre fait 1.1% de la largeur de l'écran. */
+        /* C'est la méthode la plus fiable pour du texte brut sur mobile. */
+        font-size: 1.1vw !important;
         
-        /* On le rend très large (250%) pour que le texte ne soit pas coupé */
-        width: 250%; 
+        /* Réduire l'interlignage pour compresser verticalement le dessin */
+        line-height: 0.6 !important;
         
-        /* On le réduit pour qu'il rentre dans l'écran */
-        transform: scale(0.4); 
-        transform-origin: center top; 
+        /* Pas de transformation compliquée, juste du texte qui coule */
+        width: 100%;
+        height: auto;
         
-        /* On recentre le tout (nécessaire à cause du width 250%) */
-        margin-left: -75%; 
-        
-        white-space: pre !important; /* Garde la structure intacte */
-        padding: 0;
+        white-space: pre !important; 
+        overflow: hidden; 
+        padding: 8px 4px; /* Un peu de marge interne */
+        margin: 0;
     }
+
     .bash-command { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
     /* Styles pour les filtres et boutons */
