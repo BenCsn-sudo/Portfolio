@@ -178,33 +178,33 @@
     .hero-img { 
         width: 100%; 
         max-width: none; 
-        /* Flex pour centrer */
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        height: auto;
+        
+        /* SOLUTION POUR LE BLOC VIDE : On force une hauteur raisonnable. 
+           L'overflow hidden coupera le vide créé par le scale. */
+        max-height: 42vh; 
         overflow: hidden;
+        
         margin-top: 0;
         padding: 0; 
         border-radius: 12px;
     }
     
     .ascii-art {
-        /* ASTUCE "DEZOOM" : */
-        /* 1. On donne au texte une largeur énorme (220%) pour qu'il ne soit pas coupé */
-        width: 220%;
+        /* SOLUTION POUR LA DROITE MANQUANTE : On élargit massivement la zone */
+        width: 330%; 
         
-        /* 2. On réduit la police pour que ce soit net */
+        /* Police fixée */
         font-size: 6px !important;
         line-height: 0.6 !important;
         
-        /* 3. On "dézoome" ce bloc de 220% pour le faire rentrer dans le bloc parent */
-        transform: scale(0.45); 
-        transform-origin: center top; /* On réduit depuis le haut centré */
+        /* SOLUTION ZOOM : On dézoome plus fort pour faire rentrer les 330% */
+        transform: scale(0.3); 
+        transform-origin: top center; 
         
-        /* Pour s'assurer qu'il ne décale pas le layout */
         flex-shrink: 0; 
-        
         white-space: pre !important; 
         margin: 0;
         padding: 10px;
