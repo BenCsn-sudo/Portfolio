@@ -180,11 +180,10 @@
         max-width: none; 
         display: flex;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center; /* Centre verticalement */
         
-        /* SOLUTION POUR LE BLOC VIDE : On force une hauteur raisonnable. 
-           L'overflow hidden coupera le vide créé par le scale. */
-        max-height: 42vh; 
+        /* On augmente la hauteur max autorisée pour que l'étirement rentre */
+        max-height: 55vh; 
         overflow: hidden;
         
         margin-top: 0;
@@ -193,14 +192,16 @@
     }
     
     .ascii-art {
-        /* SOLUTION POUR LA DROITE MANQUANTE : On élargit massivement la zone */
         width: 330%; 
         
         /* Police fixée */
         font-size: 6px !important;
-        line-height: 0.6 !important;
+
+        /* MODIFICATION CLÉ : On passe de 0.6 à 1.15 */
+        /* Cela va étirer verticalement le dessin pour remplir le vide en bas */
+        line-height: 1.15 !important;
         
-        /* SOLUTION ZOOM : On dézoome plus fort pour faire rentrer les 330% */
+        /* On garde le scale pour ajuster la largeur à l'écran */
         transform: scale(0.3); 
         transform-origin: top center; 
         
