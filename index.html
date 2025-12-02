@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>Portfolio Benjamin Cousin</title>
   <meta name="description" content="Collection de projets réalisés." />
 
@@ -27,7 +27,8 @@
     font:16px/1.6 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     background: var(--bg);
     color:var(--text);
-    overflow-x:hidden;
+    overflow-x:hidden; /* Empêche le scroll horizontal */
+    width: 100%;
   }
 
   /* --- STRUCTURE GLOBALE --- */
@@ -61,7 +62,7 @@
     display:flex;
     align-items:center;
     gap:8px;
-    flex-wrap: wrap; /* Sécurité pour mobile */
+    flex-wrap: wrap; 
   }
   .bash-prompt{color:#6ee7b7;font-weight:600;}
   .cursor-blink{
@@ -84,7 +85,7 @@
   .cv-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(96,165,250,.4);}
 
   /* MEDIA & ASCII */
-  .hero-media{position: relative; justify-self: end; z-index: 0; width: 100%; display: flex; flex-direction: column; align-items: center;}
+  .hero-media{position: relative; justify-self: end; z-index: 0; width: 100%; display: flex; flex-direction: column; align-items: center; max-width: 100%;}
   .hero-media::before{
     content:""; position:absolute; inset:-25% -30% -35% -30%; pointer-events:none; z-index:-1;
     background: radial-gradient(ellipse at 60% 45%, rgba(96,165,250,0.5) 0%, transparent 90%);
@@ -92,14 +93,19 @@
   }
   .hero-img{
     position: relative; width: 100%; max-width: 620px; border-radius: 24px;
-    overflow: visible; z-index: 1; border: none; box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+    overflow: hidden; /* Important pour couper ce qui dépasse */
+    z-index: 1; border: none; box-shadow: 0 15px 60px rgba(0,0,0,0.5);
   }
   .ascii-art{
     width:100%; margin:0; padding:16px;
     font-family:'Courier New',Courier,monospace;
     font-size:4px; line-height:1.1; color:#000;
     background:radial-gradient(ellipse at center, rgba(250,248,245,0.98) 0%, rgba(180,178,175,0.15) 90%, transparent 100%);
-    border-radius:inherit; overflow:hidden; white-space:pre; text-align:left; display:block;
+    border-radius:inherit; 
+    overflow:hidden; 
+    white-space: pre-wrap; /* Permet le retour à la ligne si nécessaire sur mobile */
+    word-break: break-all; /* Coupe les mots trop longs pour éviter le scroll horizontal */
+    text-align:left; display:block;
   }
 
   /* --- PROJETS --- */
@@ -136,7 +142,7 @@
   footer{padding:30px 64px;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center;}
   .links{display:flex;gap:14px;}
 
-  /* --- RESPONSIVE / MOBILE OPTIMIZATION --- */
+  /* --- RESPONSIVE / TABLET --- */
   @media(max-width:1280px){.card{grid-column:span 4;}}
   @media(max-width:1024px){
     .hero{grid-template-columns:1fr;}
@@ -145,40 +151,57 @@
     .info-grid{grid-template-columns:1fr;}
   }
 
-  /* MOBILE SPECIFIC FIXES */
+  /* --- MOBILE OPTIMIZATIONS --- */
   @media(max-width: 768px) {
-    /* 1. Reset des marges globales trop larges */
-    .wrap { padding: 24px 20px; }
-    header { padding: 12px 20px; }
+    /* 1. Marges uniformes et sécurisées */
+    .wrap, header, .quote-info-section, footer { 
+      padding-left: 16px; 
+      padding-right: 16px; 
+      width: 100%;
+    }
+    
     .nav { gap: 10px; }
     .brand { font-size: 20px; }
     
-    /* 2. Hero Section plus compacte */
-    .hero { padding: 20px 0 40px; gap: 30px; }
-    .title { font-size: 32px; margin-bottom: 20px; }
+    /* 2. Hero Section */
+    .hero { padding: 20px 0 40px; gap: 30px; display: block; }
+    .title { font-size: 32px; margin-bottom: 20px; word-wrap: break-word; }
     .subtitle { font-size: 15px; margin-bottom: 24px; }
-    .bash-command { font-size: 14px; margin-bottom: 16px; }
+    .bash-command { font-size: 14px; margin-bottom: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
     
-    /* 3. Filtres et boutons tactiles */
-    .hero-card { padding: 16px; margin-top: 24px; }
-    .filters { gap: 8px; }
-    .filter { padding: 8px 12px; font-size: 13px; flex-grow: 1; text-align: center; } /* Boutons plus faciles à toucher */
-    .cv-btn { width: 100%; justify-content: center; } /* Bouton CV pleine largeur */
+    .hero-img { 
+        max-width: 100%; 
+        width: 100%; 
+        height: auto;
+        margin-top: 20px;
+    }
+    .ascii-art {
+        font-size: 2.5px !important; /* Force une police minuscule pour l'ASCII sur mobile */
+        padding: 8px;
+    }
 
-    /* 4. Projets en pleine largeur */
+    .hero-card { padding: 16px; margin-top: 24px; }
+    .filters { gap: 8px; justify-content: flex-start; }
+    .filter { padding: 8px 12px; font-size: 13px; flex: 1 1 auto; text-align: center; } 
+    .cv-btn { width: 100%; justify-content: center; } 
+
+    /* 3. GRILLE PROJETS : 2 cartes par ligne (span 6) avec moins d'espace */
     .section { padding: 40px 0 80px; }
-    .grid { gap: 24px; }
-    .card { grid-column: span 12; } /* Une seule carte par ligne */
+    .grid { gap: 12px; } /* Espace réduit entre les cartes */
+    .card { grid-column: span 6; } /* 6 colonnes sur 12 = 50% de largeur */
     
-    /* 5. Contact et Info optimisés */
-    .quote-info-section { padding: 60px 20px; }
-    .quote-text { font-size: 22px; }
+    .content { padding: 12px; }
+    .content h3 { font-size: 14px; line-height: 1.3; } /* Titres plus petits */
+    .content p { font-size: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } /* Limite le texte */
+    .tag { font-size: 10px; padding: 2px 6px; }
+
+    /* 4. Contact et Footer */
+    .quote-text { font-size: 20px; }
     .info-grid { gap: 24px; margin-top: 30px; }
     .info-block { padding: 20px; }
-    .info-block a.btn { width: 100%; justify-content: center; margin-top: 10px; } /* Boutons contact pleine largeur */
+    .info-block a.btn { width: 100%; justify-content: center; margin-top: 10px; } 
 
-    /* 6. Footer vertical */
-    footer { padding: 30px 20px; flex-direction: column-reverse; gap: 20px; text-align: center; }
+    footer { padding: 30px 16px; flex-direction: column-reverse; gap: 20px; text-align: center; }
   }
   </style>
 </head>
