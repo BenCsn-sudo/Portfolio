@@ -29,6 +29,7 @@
     color:var(--text);
     overflow-x:hidden; /* Empêche le scroll horizontal */
     width: 100%;
+    position: relative;
   }
 
   /* --- STRUCTURE GLOBALE --- */
@@ -93,7 +94,7 @@
   }
   .hero-img{
     position: relative; width: 100%; max-width: 620px; border-radius: 24px;
-    overflow: hidden; /* Important pour couper ce qui dépasse */
+    overflow: hidden; 
     z-index: 1; border: none; box-shadow: 0 15px 60px rgba(0,0,0,0.5);
   }
   .ascii-art{
@@ -103,8 +104,8 @@
     background:radial-gradient(ellipse at center, rgba(250,248,245,0.98) 0%, rgba(180,178,175,0.15) 90%, transparent 100%);
     border-radius:inherit; 
     overflow:hidden; 
-    white-space: pre-wrap; /* Permet le retour à la ligne si nécessaire sur mobile */
-    word-break: break-all; /* Coupe les mots trop longs pour éviter le scroll horizontal */
+    white-space: pre-wrap; 
+    word-break: break-all; 
     text-align:left; display:block;
   }
 
@@ -151,51 +152,87 @@
     .info-grid{grid-template-columns:1fr;}
   }
 
-  /* --- MOBILE OPTIMIZATIONS --- */
+  /* --- MOBILE OPTIMIZATIONS (Smartphones) --- */
   @media(max-width: 768px) {
-    /* 1. Marges uniformes et sécurisées */
+    /* 1. RESET OVERFLOW & MARGINS */
+    body, html { max-width: 100%; overflow-x: hidden; }
     .wrap, header, .quote-info-section, footer { 
-      padding-left: 16px; 
-      padding-right: 16px; 
-      width: 100%;
+      padding-left: 16px; padding-right: 16px; width: 100%; 
     }
     
     .nav { gap: 10px; }
     .brand { font-size: 20px; }
     
-    /* 2. Hero Section */
-    .hero { padding: 20px 0 40px; gap: 30px; display: block; }
-    .title { font-size: 32px; margin-bottom: 20px; word-wrap: break-word; }
-    .subtitle { font-size: 15px; margin-bottom: 24px; }
-    .bash-command { font-size: 14px; margin-bottom: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+    /* 2. REORDER ELEMENTS: Title > ASCII > Filters */
+    .hero { 
+      padding: 20px 0 40px; gap: 20px; 
+      display: flex; flex-direction: column; /* Active le mode colonne */
+    }
+
+    /* Astuce : display: contents "retire" la div parente du flux, 
+       ce qui permet aux enfants (titre, prompt, filtres) de devenir 
+       des enfants directs de .hero flexbox pour utiliser 'order' */
+    .hero > div:first-child { display: contents; }
+
+    /* ORDRE DES ÉLÉMENTS */
+    /* A. Prompt, Titre, Sous-titre en PREMIER */
+    .bash-command:first-of-type, /* Le premier prompt (install) */
+    .title, 
+    .subtitle { 
+      order: 1; 
+    }
+
+    /* B. L'ASCII Art en DEUXIÈME */
+    .hero-media { 
+      order: 2; 
+      margin: 10px 0 30px; 
+      width: 100%;
+    }
+
+    /* C. Bouton CV, Chips et Filtres en DERNIER */
+    .cv-btn,
+    .chips,
+    .hero-card {
+      order: 3;
+    }
     
+    /* 3. STYLISATION SPÉCIALE ASCII CARRÉ */
     .hero-img { 
-        max-width: 100%; 
         width: 100%; 
-        height: auto;
-        margin-top: 20px;
+        max-width: 320px; /* Limite la largeur pour éviter que ça soit énorme */
+        aspect-ratio: 1 / 1; /* Force le carré parfait */
+        margin: 0 auto; /* Centre l'image */
+        display: flex; justify-content: center; align-items: center;
+        margin-top: 0;
     }
     .ascii-art {
-        font-size: 2.5px !important; /* Force une police minuscule pour l'ASCII sur mobile */
-        padding: 8px;
+        font-size: 3px !important; /* Police minuscule pour tout faire rentrer */
+        line-height: 0.8; /* Réduit l'espace vertical */
+        white-space: pre !important; /* Garde la forme, interdit le retour à la ligne auto */
+        overflow: hidden; /* Coupe ce qui dépasse */
+        transform: scale(0.65); /* Dézoome pour que l'image tienne entière */
+        padding: 0;
+        width: auto; height: auto;
     }
+    .bash-command { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-    .hero-card { padding: 16px; margin-top: 24px; }
+    /* Styles pour les filtres et boutons */
+    .hero-card { padding: 16px; margin-top: 10px; width: 100%; }
     .filters { gap: 8px; justify-content: flex-start; }
     .filter { padding: 8px 12px; font-size: 13px; flex: 1 1 auto; text-align: center; } 
-    .cv-btn { width: 100%; justify-content: center; } 
+    .cv-btn { width: 100%; justify-content: center; margin-bottom: 20px !important; } 
 
-    /* 3. GRILLE PROJETS : 2 cartes par ligne (span 6) avec moins d'espace */
+    /* 4. GRILLE PROJETS : 2 cartes par ligne */
     .section { padding: 40px 0 80px; }
-    .grid { gap: 12px; } /* Espace réduit entre les cartes */
-    .card { grid-column: span 6; } /* 6 colonnes sur 12 = 50% de largeur */
+    .grid { gap: 12px; } 
+    .card { grid-column: span 6; } /* 2 cartes par ligne */
     
-    .content { padding: 12px; }
-    .content h3 { font-size: 14px; line-height: 1.3; } /* Titres plus petits */
-    .content p { font-size: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } /* Limite le texte */
-    .tag { font-size: 10px; padding: 2px 6px; }
+    .content { padding: 10px; }
+    .content h3 { font-size: 13px; line-height: 1.2; margin-bottom: 4px; } 
+    .content p { font-size: 11px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } 
+    .tag { font-size: 9px; padding: 2px 5px; }
 
-    /* 4. Contact et Footer */
+    /* 5. Footer & Contact */
     .quote-text { font-size: 20px; }
     .info-grid { gap: 24px; margin-top: 30px; }
     .info-block { padding: 20px; }
