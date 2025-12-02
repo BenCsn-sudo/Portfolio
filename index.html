@@ -154,8 +154,8 @@
 
   /* --- MOBILE OPTIMIZATIONS (Smartphones) --- */
   @media(max-width: 768px) {
-    /* 1. RESET OVERFLOW & MARGINS */
-    body, html { max-width: 100%; overflow-x: hidden; }
+    /* 1. RESET OVERFLOW & MARGINS (Fixe la marge blanche à droite) */
+    html, body { max-width: 100%; overflow-x: hidden; position: relative; }
     .wrap, header, .quote-info-section, footer { 
       padding-left: 16px; padding-right: 16px; width: 100%; 
     }
@@ -166,53 +166,40 @@
     /* 2. REORDER ELEMENTS: Title > ASCII > Filters */
     .hero { 
       padding: 20px 0 40px; gap: 20px; 
-      display: flex; flex-direction: column; /* Active le mode colonne */
+      display: flex; flex-direction: column; 
     }
-
-    /* Astuce : display: contents "retire" la div parente du flux, 
-       ce qui permet aux enfants (titre, prompt, filtres) de devenir 
-       des enfants directs de .hero flexbox pour utiliser 'order' */
     .hero > div:first-child { display: contents; }
 
-    /* ORDRE DES ÉLÉMENTS */
-    /* A. Prompt, Titre, Sous-titre en PREMIER */
-    .bash-command:first-of-type, /* Le premier prompt (install) */
-    .title, 
-    .subtitle { 
-      order: 1; 
-    }
-
-    /* B. L'ASCII Art en DEUXIÈME */
-    .hero-media { 
-      order: 2; 
-      margin: 10px 0 30px; 
-      width: 100%;
-    }
-
-    /* C. Bouton CV, Chips et Filtres en DERNIER */
-    .cv-btn,
-    .chips,
-    .hero-card {
-      order: 3;
-    }
+    .bash-command:first-of-type, .title, .subtitle { order: 1; }
+    .hero-media { order: 2; margin: 10px 0 30px; width: 100%; }
+    .cv-btn, .chips, .hero-card { order: 3; }
     
-    /* 3. STYLISATION SPÉCIALE ASCII CARRÉ */
+    /* 3. STYLISATION SPÉCIALE ASCII CARRÉ & COMPLET */
     .hero-img { 
         width: 100%; 
-        max-width: 320px; /* Limite la largeur pour éviter que ça soit énorme */
-        aspect-ratio: 1 / 1; /* Force le carré parfait */
-        margin: 0 auto; /* Centre l'image */
-        display: flex; justify-content: center; align-items: center;
+        max-width: none; /* Enlève la limite pour laisser la place */
+        overflow: hidden; 
+        display: flex;
+        justify-content: center;
         margin-top: 0;
     }
     .ascii-art {
-        font-size: 3px !important; /* Police minuscule pour tout faire rentrer */
-        line-height: 0.8; /* Réduit l'espace vertical */
-        white-space: pre !important; /* Garde la forme, interdit le retour à la ligne auto */
-        overflow: hidden; /* Coupe ce qui dépasse */
-        transform: scale(0.65); /* Dézoome pour que l'image tienne entière */
+        /* Technique de scale pour tout faire rentrer */
+        font-size: 5px !important; 
+        line-height: 0.6;
+        
+        /* On le rend très large (250%) pour que le texte ne soit pas coupé */
+        width: 250%; 
+        
+        /* On le réduit pour qu'il rentre dans l'écran */
+        transform: scale(0.4); 
+        transform-origin: center top; 
+        
+        /* On recentre le tout (nécessaire à cause du width 250%) */
+        margin-left: -75%; 
+        
+        white-space: pre !important; /* Garde la structure intacte */
         padding: 0;
-        width: auto; height: auto;
     }
     .bash-command { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
@@ -225,7 +212,7 @@
     /* 4. GRILLE PROJETS : 2 cartes par ligne */
     .section { padding: 40px 0 80px; }
     .grid { gap: 12px; } 
-    .card { grid-column: span 6; } /* 2 cartes par ligne */
+    .card { grid-column: span 6; } 
     
     .content { padding: 10px; }
     .content h3 { font-size: 13px; line-height: 1.2; margin-bottom: 4px; } 
